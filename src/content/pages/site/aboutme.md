@@ -18,7 +18,7 @@ Most of my professional time, I’m a tiny screw in the corp(牛马). I’ve tri
 * **2005 - 2010**: Early career, in Kingsoft and Newegg.
 * **2010 - 2011**: First startup try.
 * **2011 - 2014**: Return to Newegg, migrating to US.
-* **2014 - 2017**: First Silicon Valley job, Box.
-* **2017 - 2021**: Return to China, second startup try and some consulting works.
+* **2014 - 2018**: First Silicon Valley job, Box.
+* **2018 - 2021**: Return to China, second startup try and some consulting works.
 * **2021 - now**: Return to US, Google.
 * **????**: Retired, pursue my own passion.
