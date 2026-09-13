@@ -86,6 +86,34 @@ slug is read through `import.meta.env` in the admin UI, so it is inlined into th
 client bundle when `astro build` runs. A Worker secret never reaches it — set it
 in the Workers Build settings, or in `.env` if you deploy from the laptop.
 
+## Domain and DNS
+
+The apex is `hkbarton.com`, registered at Squarespace. Workers custom domains
+require the zone to live on Cloudflare, so the nameservers have to move; there is
+no way to attach a Worker while DNS stays elsewhere.
+
+The Worker also answers on `https://hkbarton.hkbarton-blog.workers.dev`, which is
+useful for checking a deploy before DNS is pointed at it.
+
+**On Cloudflare.** The dashboard section is **Domains**, not "Websites" — it was
+renamed. Go to Domains, **Onboard a domain**, enter `hkbarton.com`, take the Free
+plan. Cloudflare scans the existing records and shows you two assigned
+nameservers. Check the scan kept the `v=spf1 -all` TXT record on the apex. There
+are no MX records, so there is no mail to preserve.
+
+**On Squarespace.** Open the domain, then DNS, then Domain Nameservers, then
+**Use Custom Nameservers**. It asks for your password or 2FA. It then prompts to
+disable DNSSEC — accept. `hkbarton.com` currently has DNSSEC on with a DS record
+published at the registry, and leaving it on while the nameservers move makes the
+domain fail to resolve for any validating resolver. Enter the two Cloudflare
+nameservers and save. Propagation can take up to 48 hours.
+
+**Back on Cloudflare,** once the zone reads Active: Workers & Pages, the
+`hkbarton` Worker, Settings, Domains & Routes, Add, Custom Domain. Add
+`hkbarton.com` and `www.hkbarton.com`. Cloudflare writes the DNS records itself,
+so do not add A or CNAME records by hand. Re-enable DNSSEC from Cloudflare
+afterwards if you want it.
+
 ## Connecting Keystatic to GitHub
 
 Do this **on the final domain**, not on `workers.dev` and not on localhost. The
