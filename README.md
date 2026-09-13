@@ -31,7 +31,23 @@ is the mode the app privacy policies use.
 are still visible in `npm run dev`.
 
 Images referenced from markdown go through `astro:assets`, so they are optimized
-at build time. Keep them under `src/assets/images/`, never in `public/`.
+at build time and come out as hashed `.webp`. Never put them in `public/`, which
+serves them untouched.
+
+Two placements work, both verified:
+
+| Where the file goes | What you write in the markdown |
+|---|---|
+| next to the `.md` file | `![alt](./photo.jpg)` |
+| `src/assets/images/posts/` | `![alt](../../assets/images/posts/photo.jpg)` |
+
+Co-locating is the easier one when writing in iA Writer, because the path is
+short and the image sits beside the post. Keystatic uploads always go to
+`src/assets/images/`, since its upload directory is fixed. Mixing the two is
+fine; Astro treats them identically.
+
+Image files sitting in `src/content/posts/` are ignored by the content loader,
+which only globs `*.md`, so they never become posts.
 
 ## Adding a section to the header
 
@@ -63,6 +79,11 @@ upload path in `keystatic.config.ts` is relative to that depth.
 
 Primary workflow is iA Writer against `src/content/posts/`, then commit and push.
 Add that folder as a Library location in iA Writer.
+
+To add an image: put the file in `src/content/posts/` beside the post, then
+reference it as `![alt](./photo.jpg)`. Dragging an image into iA Writer does not
+copy it into the folder for you, so move it there first, in Finder or with `mv`.
+Then commit both the post and the image together.
 
 Keystatic at `/keystatic` is the fallback, for image uploads and for editing away
 from the laptop. It commits to this repo through a GitHub App, which triggers a

@@ -6,21 +6,21 @@ export const SITE_DESCRIPTION = 'Hobby projects and occasional writing.';
 // Add a line here and the link appears; there is nothing else to change.
 // A link is highlighted when the current URL is it or sits below it.
 export const NAV_LINKS: { label: string; href: string }[] = [
-	{ label: 'Blog', href: '/blog' },
-	// { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
+  // { label: 'About', href: '/about' },
 ];
 
 // Projects listed on the landing page. Each has its own marketing site;
 // this site only links to them.
 export const PROJECTS: { name: string; description: string; url: string }[] = [
-	{
-		name: 'Howcomet',
-		description: 'TODO: one line about Howcomet.',
-		url: 'https://howcomet.com', // TODO: confirm
-	},
-	{
-		name: 'Keyline',
-		description: 'TODO: one line about Keyline.',
-		url: 'https://keyline.app', // TODO: confirm
-	},
+  {
+    name: 'Howcomet',
+    description: 'TODO: one line about Howcomet.',
+    url: 'https://howcomet.com', // TODO: confirm
+  },
+  {
+    name: 'Keyline',
+    description: 'TODO: one line about Keyline.',
+    url: 'https://keyline.app', // TODO: confirm
+  },
 ];
