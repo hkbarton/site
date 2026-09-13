@@ -8,6 +8,8 @@ Hi, I’m hkbarton. Dad of two kids; Software Engineer @ Google (so far...) and 
 
 ![👆 Photo of me When I’m still young and skinny, of course I’m not young and skinny anymore...](./profile.jpeg)
 
+👆 Photo of me When I’m still young and skinny, of course I’m not young and skinny anymore...
+
 
 ## Some links
 * [My LinkedIn Profile](https://www.linkedin.com/in/hkbarton/)
