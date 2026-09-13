@@ -1,6 +1,9 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
-	"name": "hkbarton",
+	// Must match the Worker that Cloudflare's git-push build deploys to. Workers
+	// Builds named it after the repository, so it is "site", not "hkbarton".
+	// Changing this would deploy to a second, separate Worker.
+	"name": "site",
 	// Pinned on purpose. Bumping it changes runtime behaviour; do it in its own commit.
 	"compatibility_date": "2026-09-11",
 	// `nodejs_compat` is required: the Keystatic admin API imports `node:fs`.

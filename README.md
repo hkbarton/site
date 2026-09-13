@@ -92,8 +92,11 @@ The apex is `hkbarton.com`, registered at Squarespace. Workers custom domains
 require the zone to live on Cloudflare, so the nameservers have to move; there is
 no way to attach a Worker while DNS stays elsewhere.
 
-The Worker also answers on `https://hkbarton.hkbarton-blog.workers.dev`, which is
-useful for checking a deploy before DNS is pointed at it.
+The Worker is named `site`, after the repository, because that is what
+Cloudflare's git-push build created. `wrangler.jsonc` matches it, so a local
+`npm run deploy` updates the same Worker the build does rather than making a
+second one. It also answers on `https://site.hkbarton-blog.workers.dev`, which is
+useful for checking a deploy before DNS points at it.
 
 **On Cloudflare.** The dashboard section is **Domains**, not "Websites" — it was
 renamed. Go to Domains, **Onboard a domain**, enter `hkbarton.com`, take the Free
