@@ -1,0 +1,24 @@
+---
+title: About me
+description: Something about hkbarton.
+pubDate: 2026-09-13
+---
+
+Hi, I’m hkbarton. Dad of two kids; Software Engineer @ Google (so far...) and live in California.
+
+profile.jpeg
+👆When I’m still skinny, of course I’m not skinny anymore...
+
+## Some links
+* [My LinkedIn Profile](https://www.linkedin.com/in/hkbarton/)
+* [My X(twitter)](https://x.com/hkbarton1983)
+
+## My professional work
+Most of my professional time, I’m a tiny screw in the corp(牛马). I’ve tried (twice) to start my own company but they both failed. Nowadays I’m mostly passion about building some useful small things, investing and dreaming about earlier retirement from my corp work.
+* **2005 - 2010**: Early career, in Kingsoft and Newegg.
+* **2010 - 2011**: First startup try
+* **2011 - 2014**: Return to Newegg, migrating to US.
+* **2014 - 2017**: First Silicon Valley job, Box.
+* **2017 - 2021**: Return to China, second startup try and some consulting works.
+* **2021 - now**: Return to US, Google.
+* **????**: Retired, pursue my own passion.

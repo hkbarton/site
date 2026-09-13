@@ -13,7 +13,7 @@ export const SITE_LANG = 'en';
 // A link is highlighted when the current URL is it or sits below it.
 export const NAV_LINKS: { label: string; href: string }[] = [
   { label: 'Blog', href: '/blog' },
-  // { label: 'About', href: '/about' },
+  { label: 'About Me', href: '/site/aboutme' },
 ];
 
 // Projects listed on the landing page. Each has its own marketing site;
