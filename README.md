@@ -108,6 +108,12 @@ published at the registry, and leaving it on while the nameservers move makes th
 domain fail to resolve for any validating resolver. Enter the two Cloudflare
 nameservers and save. Propagation can take up to 48 hours.
 
+If the domain ever returns SERVFAIL from Google DNS (`dig @8.8.8.8 hkbarton.com`)
+while it still answers with `+cd`, the cause is a stale DNSSEC DS record left at
+the registry by the old provider. The parent says the zone is signed, Cloudflare
+does not sign it, so validating resolvers refuse the answer. Fix it by turning
+DNSSEC off at Squarespace, which withdraws the DS.
+
 **Back on Cloudflare,** once the zone reads Active: Workers & Pages, the
 `hkbarton` Worker, Settings, Domains & Routes, Add, Custom Domain. Add
 `hkbarton.com` and `www.hkbarton.com`. Cloudflare writes the DNS records itself,
