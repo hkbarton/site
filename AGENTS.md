@@ -1,22 +1,29 @@
+# hkbarton.com
+
+Astro 7 + Keystatic on Cloudflare Workers. Read `README.md` first — it covers the
+routes, the content model, and the standing constraints.
+
 ## Development
 
-When starting the dev server, use background mode:
+Start the dev server in background mode:
 
 ```
 astro dev --background
 ```
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+Manage it with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+Server-side errors from the workerd runtime only appear in `astro dev logs`.
 
-## Documentation
+To exercise the real Worker rather than the dev server, use `npm run preview`,
+which builds and serves through Wrangler.
 
-Full documentation: https://docs.astro.build
+## Things that will bite you
 
-Consult these guides before working on related tasks:
-
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+- Every server route runs inside workerd, in dev too. Node APIs are only
+  available because `nodejs_compat` is set in `wrangler.jsonc`.
+- `astro.config.mjs` carries a CommonJS interop plugin for two packages in
+  Keystatic's import graph that ship CommonJS only. Without it the Keystatic API
+  route dies with `ReferenceError: exports is not defined`. The comment there
+  explains when it can be removed.
+- Keystatic must stay in GitHub mode. Local mode is unsupported outside Node.
+- Never rename a published page path. See `README.md`.

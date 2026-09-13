@@ -1,63 +1,70 @@
-# Astro Starter Kit: Blog
+# hkbarton.com
 
-```sh
-npm create astro@latest -- --template blog
-```
+Personal site: a landing page, occasional blog posts, and standalone pages such as
+app privacy policies. Astro 7, edited with Keystatic, served from Cloudflare Workers.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Routes
 
-Features:
+| Path | What |
+|---|---|
+| `/` | Landing page: intro, project links, recent posts |
+| `/blog` | Post index, newest first |
+| `/blog/<slug>` | A post |
+| `/keyline/privacy` | Keyline privacy policy, bare layout |
+| `/howcomet/privacy` | Howcomet privacy policy, bare layout |
+| `/rss.xml` | Feed |
+| `/keystatic` | CMS admin, the only server-rendered route |
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+Every route except `/keystatic` and `/api/keystatic/*` is prerendered at build time.
+URLs never carry a trailing slash; Cloudflare redirects the slashed form.
 
-## 🚀 Project Structure
+## Content
 
-Inside of your Astro project, you'll see the following folders and files:
+Posts are `.md` files in `src/content/posts/`. Pages are `.md` files in
+`src/content/pages/<app>/<page>.md`, which is what puts the privacy policies at
+`/<app>/privacy`. Frontmatter schemas live in `src/content.config.ts`.
 
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
+`bare: true` on a page renders the document with no site nav and no footer. That
+is the mode the app privacy policies use.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+`draft: true` on a post hides it from the index, the feed, and the build. Drafts
+are still visible in `npm run dev`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Images referenced from markdown go through `astro:assets`, so they are optimized
+at build time. Keep them under `src/assets/images/`, never in `public/`.
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## Writing
 
-Any static assets, like images, can be placed in the `public/` directory.
+Primary workflow is iA Writer against `src/content/posts/`, then commit and push.
+Add that folder as a Library location in iA Writer.
 
-## 🧞 Commands
+Keystatic at `/keystatic` is the fallback, for image uploads and for editing away
+from the laptop. It commits to this repo through a GitHub App, which triggers a
+Workers build.
 
-All commands are run from the root of the project, from a terminal:
+Keystatic runs in GitHub mode, not local mode. Its API route refuses
+`storage: { kind: 'local' }` outside Node, and the Cloudflare adapter runs every
+server route inside workerd, in `astro dev` as well as in production.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Commands
 
-## 👀 Want to learn more?
+| Command | What |
+|---|---|
+| `npm run dev` | Dev server on 127.0.0.1:4321 |
+| `npm run build` | Build to `dist/` |
+| `npm run preview` | Build, then serve the real Worker locally via Wrangler |
+| `npm run deploy` | Build and deploy to Cloudflare |
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Environment
 
-## Credit
+Keystatic's GitHub App produces four values. Copy `.env.example` to `.env` for
+local dev. For production set them as Worker secrets with `wrangler secret put`.
+Never commit them.
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+## Standing constraints
+
+- Never rename a published page path, especially the privacy policy URLs. They
+  are registered in App Store Connect. Add a Cloudflare redirect rule instead.
+- `compatibility_date` in `wrangler.jsonc` is pinned. Bumping it changes runtime
+  behaviour, so it gets its own commit and its own deploy.
+- No analytics, no third-party scripts, no consent banner.
