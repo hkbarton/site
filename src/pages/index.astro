@@ -5,6 +5,16 @@ import { PROJECTS, SITE_TITLE } from '../consts';
 import { getPosts } from '../lib/posts';
 
 const recent = (await getPosts()).slice(0, 5);
+
+/**
+ * Links off this site open in a new tab. Anything relative stays in the current
+ * one, so adding an internal path to PROJECTS still behaves normally.
+ * `rel="noopener"` stops the opened page reaching back through `window.opener`.
+ */
+function externalLinkProps(url: string) {
+	if (!/^https?:\/\//i.test(url)) return {};
+	return { target: '_blank', rel: 'noopener noreferrer' };
+}
 ---
 
 <Base title={SITE_TITLE}>
@@ -18,7 +28,10 @@ const recent = (await getPosts()).slice(0, 5);
 		{
 			PROJECTS.map((p) => (
 				<li>
-					<a href={p.url}>{p.name}</a> — {p.description}
+					<a href={p.url} {...externalLinkProps(p.url)}>
+						{p.name}
+					</a>{' '}
+					— {p.description}
 				</li>
 			))
 		}

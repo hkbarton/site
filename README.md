@@ -49,6 +49,13 @@ fine; Astro treats them identically.
 Image files sitting in `src/content/posts/` are ignored by the content loader,
 which only globs `*.md`, so they never become posts.
 
+## Project links
+
+`PROJECTS` in `src/consts.ts` drives the Projects list on the landing page.
+Anything with an `http://` or `https://` URL opens in a new tab, with
+`rel="noopener noreferrer"`. A relative path stays in the current tab, so an
+internal link still behaves normally. The check is in `src/pages/index.astro`.
+
 ## Adding a section to the header
 
 The header is driven by `NAV_LINKS` in `src/consts.ts`. Adding a section is two

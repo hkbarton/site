@@ -1,5 +1,5 @@
 export const SITE_TITLE = 'hkbarton';
-export const SITE_DESCRIPTION = 'Hobby projects and occasional writing.';
+export const SITE_DESCRIPTION = 'The homepage for hkbarton.';
 
 // Header navigation, in order. `href` is a path on this site, so it must match
 // the slug of a page you created in Keystatic: slug `about` serves at `/about`.
@@ -15,12 +15,14 @@ export const NAV_LINKS: { label: string; href: string }[] = [
 export const PROJECTS: { name: string; description: string; url: string }[] = [
   {
     name: 'Howcomet',
-    description: 'TODO: one line about Howcomet.',
-    url: 'https://howcomet.com', // TODO: confirm
+    description: 'AI Chat build for my kids and other kids, help them to learn not just get answer.',
+    url: 'https://howcomet.com',
   },
+  /*
   {
     name: 'Keyline',
     description: 'TODO: one line about Keyline.',
     url: 'https://keyline.app', // TODO: confirm
   },
+  */
 ];
