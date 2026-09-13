@@ -9,6 +9,8 @@ const posts = defineCollection({
 		description: z.string().optional(),
 		pubDate: z.coerce.date(),
 		draft: z.boolean().default(false),
+		// BCP 47 tag, e.g. 'zh-Hans'. Falls back to SITE_LANG.
+		lang: z.string().optional(),
 	}),
 });
 
@@ -18,6 +20,8 @@ const pages = defineCollection({
 		title: z.string(),
 		updated: z.coerce.date().optional(),
 		bare: z.boolean().default(false),
+		// BCP 47 tag, e.g. 'zh-Hans'. Falls back to SITE_LANG.
+		lang: z.string().optional(),
 	}),
 });
 

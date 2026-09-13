@@ -12,14 +12,14 @@ const { page } = Astro.props;
 const { Content } = await render(page);
 ---
 
-<Base title={page.data.title} bare={page.data.bare}>
+<Base title={page.data.title} bare={page.data.bare} lang={page.data.lang}>
 	<article>
 		<header>
 			<h1>{page.data.title}</h1>
 			{
 				page.data.updated && (
 					<p class="meta">
-						Last updated <FormattedDate date={page.data.updated} />
+						Last updated <FormattedDate date={page.data.updated} lang={page.data.lang} />
 					</p>
 				)
 			}

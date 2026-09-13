@@ -45,6 +45,16 @@ export default config({
 					validation: { isRequired: true },
 				}),
 				draft: fields.checkbox({ label: 'Draft' }),
+				lang: fields.select({
+					label: 'Language',
+					description: 'Sets <html lang> and date formatting.',
+					options: [
+						{ label: 'English', value: 'en' },
+						{ label: '简体中文', value: 'zh-Hans' },
+						{ label: '繁體中文', value: 'zh-Hant' },
+					],
+					defaultValue: 'en',
+				}),
 				content: fields.markdoc({
 					label: 'Content',
 					extension: 'md',
@@ -69,6 +79,16 @@ export default config({
 				}),
 				updated: fields.date({ label: 'Last updated' }),
 				bare: fields.checkbox({ label: 'Bare layout (no nav, no footer)' }),
+				lang: fields.select({
+					label: 'Language',
+					description: 'Sets <html lang> and date formatting.',
+					options: [
+						{ label: 'English', value: 'en' },
+						{ label: '简体中文', value: 'zh-Hans' },
+						{ label: '繁體中文', value: 'zh-Hant' },
+					],
+					defaultValue: 'en',
+				}),
 				content: fields.markdoc({
 					label: 'Content',
 					extension: 'md',

@@ -13,12 +13,12 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<Base title={post.data.title} description={post.data.description}>
+<Base title={post.data.title} description={post.data.description} lang={post.data.lang}>
 	<article>
 		<header>
 			<h1>{post.data.title}</h1>
 			<p class="meta">
-				<FormattedDate date={post.data.pubDate} />
+				<FormattedDate date={post.data.pubDate} lang={post.data.lang} />
 				{post.data.draft && <span class="draft">Draft</span>}
 			</p>
 		</header>

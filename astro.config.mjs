@@ -128,7 +128,18 @@ export default defineConfig({
 			provider: fontProviders.local(),
 			name: 'Atkinson Hyperlegible',
 			cssVariable: '--font-body',
-			fallbacks: ['system-ui', 'sans-serif'],
+			// Atkinson Hyperlegible has no CJK glyphs, so Chinese text falls through
+			// this list character by character. Name real CJK families explicitly
+			// rather than relying on `system-ui` to delegate, which it does not do
+			// consistently across platforms.
+			fallbacks: [
+				'system-ui',
+				'PingFang SC',
+				'Hiragino Sans GB',
+				'Microsoft YaHei',
+				'Noto Sans CJK SC',
+				'sans-serif',
+			],
 			options: {
 				variants: [
 					{

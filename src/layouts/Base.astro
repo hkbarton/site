@@ -3,22 +3,24 @@ import '../styles/global.css';
 import { Font } from 'astro:assets';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from '../consts';
 
 interface Props {
 	title: string;
 	description?: string;
 	/** Render only the document: no nav, no footer. Used for app privacy policies. */
 	bare?: boolean;
+	/** BCP 47 tag for this page's content. Defaults to the site language. */
+	lang?: string;
 }
 
-const { title, description = SITE_DESCRIPTION, bare = false } = Astro.props;
+const { title, description = SITE_DESCRIPTION, bare = false, lang = SITE_LANG } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const pageTitle = title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />

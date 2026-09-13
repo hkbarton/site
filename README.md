@@ -49,6 +49,41 @@ fine; Astro treats them identically.
 Image files sitting in `src/content/posts/` are ignored by the content loader,
 which only globs `*.md`, so they never become posts.
 
+## Writing in Chinese
+
+Fully supported. Files are UTF-8, and Chinese renders in posts, pages, the index
+and the feed.
+
+Set `lang` in the frontmatter so the page is tagged correctly:
+
+```markdown
+---
+title: 中文测试文章
+pubDate: 2026-09-13
+lang: zh-Hans
+---
+```
+
+In Keystatic the same thing is a Language dropdown. The default is `en`, from
+`SITE_LANG` in `src/consts.ts`; change that if most of what you write is Chinese.
+
+`lang` does two visible things. It sets `<html lang>`, which is how browsers
+choose Han glyphs — Chinese text tagged `en` can be rendered with Japanese
+letterforms on some systems. And it localises dates, so the same post shows
+`2026年9月13日` instead of `Sep 13, 2026`.
+
+The body font, Atkinson Hyperlegible, has no CJK glyphs, so Chinese falls through
+to the fallback list in `astro.config.mjs`: PingFang SC, Hiragino Sans GB,
+Microsoft YaHei, Noto Sans CJK SC. Latin text in a mixed paragraph still uses
+Atkinson.
+
+**One trap.** Keystatic builds the slug from the title with `@sindresorhus/slugify`,
+which strips Chinese entirely: `中文测试文章` becomes an empty slug, and
+`Hello 世界` becomes `hello`. Type the slug yourself in the field beside the
+title. Writing in iA Writer avoids this, since the filename is the slug. A
+Chinese filename works and gives a URL like `/blog/中文文件名`, which browsers
+percent-encode; an ASCII filename keeps the URL tidier.
+
 ## Project links
 
 `PROJECTS` in `src/consts.ts` drives the Projects list on the landing page.

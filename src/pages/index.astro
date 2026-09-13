@@ -20,7 +20,7 @@ function externalLinkProps(url: string) {
 <Base title={SITE_TITLE}>
 	<h1>Hi, I'm hkbarton.</h1>
 	<p>
-    Software Enginner/Dad, love play games(PC/Consoles) and building small things.
+    Software Enginner/Dad, love playing games(PC/Consoles), building small things and eating spicy food. I speak/write in both English and Chinese.
 	</p>
 
 	<h2>Projects</h2>
@@ -45,7 +45,7 @@ function externalLinkProps(url: string) {
 					{recent.map((post) => (
 						<li>
 							<a href={`/blog/${post.id}`}>{post.data.title}</a>
-							<FormattedDate date={post.data.pubDate} />
+							<FormattedDate date={post.data.pubDate} lang={post.data.lang} />
 						</li>
 					))}
 				</ul>

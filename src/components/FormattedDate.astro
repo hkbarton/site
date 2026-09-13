@@ -1,17 +1,20 @@
 ---
+import { SITE_LANG } from '../consts';
+
 interface Props {
 	date: Date;
+	/** BCP 47 tag. Defaults to the site language. */
+	lang?: string;
 }
 
-const { date } = Astro.props;
+const { date, lang = SITE_LANG } = Astro.props;
+
+const formatted = date.toLocaleDateString(lang, {
+	year: 'numeric',
+	month: 'short',
+	day: 'numeric',
+	timeZone: 'UTC',
+});
 ---
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
-</time>
+<time datetime={date.toISOString()} lang={lang}>{formatted}</time>

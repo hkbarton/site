@@ -14,7 +14,7 @@ const posts = await getPosts();
 			posts.map((post) => (
 				<li>
 					<a href={`/blog/${post.id}`}>{post.data.title}</a>
-					<FormattedDate date={post.data.pubDate} />
+					<FormattedDate date={post.data.pubDate} lang={post.data.lang} />
 				</li>
 			))
 		}
