@@ -27,14 +27,14 @@
     "astro": "^7.3.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "sharp": "^0.35.0",
-    "wrangler": "^4.131.1"
+    "sharp": "^0.35.0"
   },
   "allowScripts": {
     "esbuild": true
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.131.1"
   }
 }

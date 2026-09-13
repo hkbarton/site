@@ -54,6 +54,11 @@ server route inside workerd, in `astro dev` as well as in production.
 | `npm run build` | Build to `dist/` |
 | `npm run preview` | Build, then serve the real Worker locally via Wrangler |
 | `npm run deploy` | Build and deploy to Cloudflare |
+| `npm run check` | Type check |
+
+Wrangler is a project dependency, not a global install. The npm scripts above
+resolve it from `node_modules` on their own. Running it directly from the
+terminal needs `npx`, as in `npx wrangler whoami`.
 
 ## Environment
 
@@ -69,11 +74,38 @@ In production they do **not** all go to the same place:
 | `KEYSTATIC_SECRET` | runtime | `wrangler secret put` |
 | `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | build time | build environment variable |
 
+```
+npx wrangler secret put KEYSTATIC_GITHUB_CLIENT_ID
+npx wrangler secret put KEYSTATIC_GITHUB_CLIENT_SECRET
+npx wrangler secret put KEYSTATIC_SECRET
+```
+
 The first three are read through `getSecret()` from `astro:env/server`, which the
 Cloudflare adapter resolves against the Worker's env at request time. The app
 slug is read through `import.meta.env` in the admin UI, so it is inlined into the
 client bundle when `astro build` runs. A Worker secret never reaches it — set it
 in the Workers Build settings, or in `.env` if you deploy from the laptop.
+
+## Connecting Keystatic to GitHub
+
+Do this **on the final domain**, not on `workers.dev` and not on localhost. The
+GitHub App stores one callback URL, and creating it against the wrong origin
+means editing the app afterwards to fix it.
+
+1. Open `https://hkbarton.com/keystatic` and press **Log in with GitHub**. With
+   no app configured yet, Keystatic redirects to its setup screen.
+2. Follow the link it gives you to GitHub's *create a GitHub App* page. Keystatic
+   prefills the name, the callback URL
+   (`https://hkbarton.com/api/keystatic/github/oauth/callback`), the permissions,
+   and the target repository. Create the app and install it on `hkbarton/site`.
+3. GitHub returns you to Keystatic, which prints the four values. Put the three
+   runtime ones in as Worker secrets with the commands above, and
+   `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` in the Workers Build environment variables.
+4. Redeploy so the app slug gets inlined. A Worker secret cannot supply it.
+
+For editing from localhost later, add
+`http://127.0.0.1:4321/api/keystatic/github/oauth/callback` as a second callback
+URL on the same GitHub App, and copy all four values into `.env`.
 
 ## Standing constraints
 
