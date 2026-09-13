@@ -27,3 +27,8 @@ which builds and serves through Wrangler.
   explains when it can be removed.
 - Keystatic must stay in GitHub mode. Local mode is unsupported outside Node.
 - Never rename a published page path. See `README.md`.
+- `assets.run_worker_first` in `wrangler.jsonc` lists the Keystatic paths. Remove
+  it and the admin 404s in a browser while `curl` still sees 200, because
+  `not_found_handling: "404-page"` answers navigation requests from the asset
+  worker without ever reaching the Worker. Test admin routes with
+  `-H 'Sec-Fetch-Mode: navigate'`, not a plain curl.

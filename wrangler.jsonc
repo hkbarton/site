@@ -13,7 +13,14 @@
 		"directory": "./dist",
 		"binding": "ASSETS",
 		"html_handling": "drop-trailing-slash",
-		"not_found_handling": "404-page"
+		"not_found_handling": "404-page",
+		// Keystatic's admin is a client-side router, so /keystatic/<anything> has
+		// no matching static asset. Without this, `not_found_handling: "404-page"`
+		// makes the asset worker answer browser *navigations* (Sec-Fetch-Mode:
+		// navigate) with 404.html and never reach the Worker, so every admin route
+		// below /keystatic 404s in a browser while curl sees 200. Send these paths
+		// to the Worker first. Everything else keeps normal asset handling.
+		"run_worker_first": ["/keystatic", "/keystatic/*", "/api/keystatic/*"]
 	},
 	"observability": {
 		"enabled": true
