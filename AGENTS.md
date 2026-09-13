@@ -26,6 +26,9 @@ which builds and serves through Wrangler.
   route dies with `ReferenceError: exports is not defined`. The comment there
   explains when it can be removed.
 - Keystatic must stay in GitHub mode. Local mode is unsupported outside Node.
+- Keystatic's one-click GitHub App setup also does not work here, for the same
+  reason: `handleGitHubAppCreation` is in its Node build only. Create the app by
+  hand; `README.md` has the exact settings.
 - Never rename a published page path. See `README.md`.
 - `assets.run_worker_first` in `wrangler.jsonc` lists the Keystatic paths. Remove
   it and the admin 404s in a browser while `curl` still sees 200, because

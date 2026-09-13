@@ -125,24 +125,57 @@ afterwards if you want it.
 
 ## Connecting Keystatic to GitHub
 
-Do this **on the final domain**, not on `workers.dev` and not on localhost. The
-GitHub App stores one callback URL, and creating it against the wrong origin
-means editing the app afterwards to fix it.
+Create the GitHub App **by hand**. Keystatic's one-click "Create GitHub App"
+button on `/keystatic/setup` cannot work in this project: the handler behind it,
+`handleGitHubAppCreation`, ships only in Keystatic's Node build, and the
+Cloudflare adapter runs every server route inside workerd, in `astro dev` as well
+as in production. The button returns 500 rather than doing anything.
 
-1. Open `https://hkbarton.com/keystatic` and press **Log in with GitHub**. With
-   no app configured yet, Keystatic redirects to its setup screen.
-2. Follow the link it gives you to GitHub's *create a GitHub App* page. Keystatic
-   prefills the name, the callback URL
-   (`https://hkbarton.com/api/keystatic/github/oauth/callback`), the permissions,
-   and the target repository. Create the app and install it on `hkbarton/site`.
-3. GitHub returns you to Keystatic, which prints the four values. Put the three
-   runtime ones in as Worker secrets with the commands above, and
-   `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` in the Workers Build environment variables.
-4. Redeploy so the app slug gets inlined. A Worker secret cannot supply it.
+Nothing is lost by doing it manually. The settings below are exactly the manifest
+Keystatic would have submitted.
 
-For editing from localhost later, add
-`http://127.0.0.1:4321/api/keystatic/github/oauth/callback` as a second callback
-URL on the same GitHub App, and copy all four values into `.env`.
+**1. Create the app** at <https://github.com/settings/apps/new>.
+
+| Field | Value |
+|---|---|
+| GitHub App name | `hkbarton Keystatic` (any name; note the slug it generates) |
+| Homepage URL | `https://hkbarton.com/keystatic` |
+| Callback URL | `https://hkbarton.com/api/keystatic/github/oauth/callback` |
+| Add a second callback URL | `http://127.0.0.1:4321/api/keystatic/github/oauth/callback` |
+| Request user authorization (OAuth) during installation | tick it |
+| Webhook → Active | untick it |
+| Where can this app be installed | Only on this account |
+
+Repository permissions: **Contents** read and write, **Metadata** read-only,
+**Pull requests** read-only. Leave everything else alone.
+
+**2. Collect four values.** On the app page, note the **Client ID**, then press
+*Generate a new client secret* and copy it. The **slug** is the last path segment
+of the app's public URL, `https://github.com/apps/<slug>`. Generate the fourth
+yourself:
+
+```
+openssl rand -hex 32
+```
+
+**3. Install the app** on `hkbarton/site` via *Install App* in the sidebar.
+
+**4. Set them.** Three are runtime secrets on the Worker:
+
+```
+npx wrangler secret put KEYSTATIC_GITHUB_CLIENT_ID
+npx wrangler secret put KEYSTATIC_GITHUB_CLIENT_SECRET
+npx wrangler secret put KEYSTATIC_SECRET
+```
+
+`PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` is a **build** variable, not a secret. Add it
+under the Worker's Settings → Build → Variables, then trigger a build so it gets
+inlined into the admin bundle. See the Environment table above for why.
+
+Put all four in `.env` as well, for local dev.
+
+Until all three secrets exist, every `/api/keystatic/*` route returns 500 by
+design. Keystatic throws on purpose when the config is incomplete in production.
 
 ## Standing constraints
 
