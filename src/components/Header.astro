@@ -1,14 +1,38 @@
 ---
-import { SITE_TITLE } from '../consts';
+import { NAV_LINKS, SITE_TITLE } from '../consts';
 
-const path = Astro.url.pathname;
-const isBlog = path === '/blog' || path.startsWith('/blog/');
+/**
+ * `build.format: 'file'` means prerendering sees `/blog.html` and `/index.html`,
+ * while the dev server and SSR see `/blog` and `/`. Normalise to the URL a
+ * visitor actually has, or nothing ever matches and no link is ever marked
+ * current.
+ */
+function normalise(pathname: string) {
+	const stripped = pathname
+		.replace(/\/index\.html$/, '/')
+		.replace(/\.html$/, '')
+		.replace(/(.)\/$/, '$1');
+	return stripped === '' ? '/' : stripped;
+}
+
+const path = normalise(Astro.url.pathname);
+
+/** Current for the page itself and anything nested below it. */
+function isCurrent(href: string) {
+	return path === href || path.startsWith(`${href}/`);
+}
 ---
 
 <header>
 	<nav aria-label="Site">
 		<a href="/" class="home" aria-current={path === '/' ? 'page' : undefined}>{SITE_TITLE}</a>
-		<a href="/blog" aria-current={isBlog ? 'page' : undefined}>Blog</a>
+		{
+			NAV_LINKS.map((link) => (
+				<a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+					{link.label}
+				</a>
+			))
+		}
 	</nav>
 </header>
 
@@ -22,6 +46,7 @@ const isBlog = path === '/blog' || path.startsWith('/blog/');
 		display: flex;
 		gap: 1.25rem;
 		align-items: baseline;
+		flex-wrap: wrap;
 	}
 	a {
 		color: var(--fg-muted);

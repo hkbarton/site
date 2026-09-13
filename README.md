@@ -33,6 +33,32 @@ are still visible in `npm run dev`.
 Images referenced from markdown go through `astro:assets`, so they are optimized
 at build time. Keep them under `src/assets/images/`, never in `public/`.
 
+## Adding a section to the header
+
+The header is driven by `NAV_LINKS` in `src/consts.ts`. Adding a section is two
+steps.
+
+First create the page in Keystatic, under Pages. Whatever you type in the **Path**
+field becomes the URL, so `about` serves at `/about`. Save, and wait for the
+build.
+
+Then add one line to `NAV_LINKS`:
+
+```ts
+export const NAV_LINKS: { label: string; href: string }[] = [
+	{ label: 'Blog', href: '/blog' },
+	{ label: 'About', href: '/about' },
+];
+```
+
+Order in the array is the order in the header. A link is highlighted when the
+current URL is it or sits below it, so `/blog/some-post` keeps Blog highlighted.
+
+Two things to know. A page with `bare: true` renders with no header at all, which
+is what the privacy policies use, so do not put one of those in the nav. And keep
+pages that contain images two levels deep, like `<app>/<page>`, because the image
+upload path in `keystatic.config.ts` is relative to that depth.
+
 ## Writing
 
 Primary workflow is iA Writer against `src/content/posts/`, then commit and push.
