@@ -58,8 +58,22 @@ server route inside workerd, in `astro dev` as well as in production.
 ## Environment
 
 Keystatic's GitHub App produces four values. Copy `.env.example` to `.env` for
-local dev. For production set them as Worker secrets with `wrangler secret put`.
-Never commit them.
+local dev. Never commit the real values.
+
+In production they do **not** all go to the same place:
+
+| Value | When it is read | Where it goes in production |
+|---|---|---|
+| `KEYSTATIC_GITHUB_CLIENT_ID` | runtime | `wrangler secret put` |
+| `KEYSTATIC_GITHUB_CLIENT_SECRET` | runtime | `wrangler secret put` |
+| `KEYSTATIC_SECRET` | runtime | `wrangler secret put` |
+| `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | build time | build environment variable |
+
+The first three are read through `getSecret()` from `astro:env/server`, which the
+Cloudflare adapter resolves against the Worker's env at request time. The app
+slug is read through `import.meta.env` in the admin UI, so it is inlined into the
+client bundle when `astro build` runs. A Worker secret never reaches it — set it
+in the Workers Build settings, or in `.env` if you deploy from the laptop.
 
 ## Standing constraints
 
