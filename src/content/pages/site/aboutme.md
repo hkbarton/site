@@ -24,3 +24,21 @@ Most of my professional time, I’m a tiny screw in the corp(牛马). I’ve tri
 * **2018 - 2021**: Return to China, second startup try and some consulting works.
 * **2021 - now**: Return to US, Google.
 * **????**: Retired, pursue my own passion.
+
+## My “top” list
+### Best Games
+1. The Last of Us Part I
+2. The Last of Us Part II
+3. Call of Duty 4 modern warfare 1
+4. Call of Duty 6 modern warfare 2
+5. Uncharted series
+### Best Movies
+1. Interstaller
+2. Inception
+3. Manchester by the Sea
+4. Shutter Island
+5. CODA
+### Best TV Series
+1. Silo
+2. Friends
+3. Silicon Valley
